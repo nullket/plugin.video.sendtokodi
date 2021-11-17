@@ -1,8 +1,7 @@
 name: update-libs
 on:
   schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 13,14 * * *'
+    - cron:  '0 18 * * *'
   workflow_dispatch:
 jobs:
   update:
