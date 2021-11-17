@@ -1,7 +1,9 @@
 name: update-libs
 on:
   schedule:
-    - cron: '0 12 * * *'
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 13,14 * * *'
+  workflow_dispatch:
 jobs:
   update:
     runs-on: ubuntu-latest
