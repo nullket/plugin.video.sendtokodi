@@ -22,14 +22,9 @@ else
     rm -r ${GITHUB_WORKSPACE}/lib/${LIB_NAME}
     mv /tmp/${LIB_NAME}/${LIB_NAME} ${GITHUB_WORKSPACE}/lib/${LIB_NAME}
 
-    # DEBUG: print status
-    echo "DEBUG: STATUS"
-    git status
-
-    # TODO: commit here and push outside (one push for all changes)
-    git config --global user.name "github-actions[bot]"
-    git config --global user.email "github-actions[bot]@users.noreply.github.com"
-    
+    # commit here and push outside (one push for all changes, so the following build workflow will only be triggered once)
+    git add lib/${LIB_NAME}
+    git commit -m "[CI] Scheduled auto update lib/${LIB_NAME}"
     echo -n $commit_upstream > $LIB_VERSION_FILE
-    echo "$LIB_NAME succesfully updated to $commit_upstream"
+    echo "$LIB_NAME succesfully upgraded to upstream commit $commit_upstream and staged for push"
 fi
