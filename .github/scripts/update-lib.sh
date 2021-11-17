@@ -21,12 +21,15 @@ else
     git clone $LIB_GIT_URL /tmp/$LIB_NAME
     rm -r ${GITHUB_WORKSPACE}/lib/${LIB_NAME}
     mv /tmp/${LIB_NAME}/${LIB_NAME} ${GITHUB_WORKSPACE}/lib/${LIB_NAME}
-    echo -n $commit_upstream > $LIB_VERSION_FILE
 
     # DEBUG: print status
     echo "DEBUG: STATUS"
     git status
 
-    # TODO: push and commit
+    # TODO: commit here and push outside (one push for all changes)
+    git config --global user.name "github-actions[bot]"
+    git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    
+    echo -n $commit_upstream > $LIB_VERSION_FILE
     echo "$LIB_NAME succesfully updated to $commit_upstream"
 fi

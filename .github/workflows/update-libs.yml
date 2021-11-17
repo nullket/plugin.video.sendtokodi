@@ -2,12 +2,13 @@ name: update-libs
 on:
   schedule:
     - cron:  '0 11 * * *'
-    - cron:  '0 17 * * *'
+    - cron:  '0 13 * * *'
 jobs:
   update:
     runs-on: ubuntu-latest
-    env:
-      TOKEN: TODO
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MAINTAINER_PAT_TOKEN }}
       - run: $GITHUB_WORKSPACE/.github/scripts/update-lib.sh yt_dlp https://github.com/yt-dlp/yt-dlp.git yt_dlp
+      - run: $GITHUB_WORKSPACE/.github/scripts/update-lib.sh youtube_dl https://github.com/ytdl-org/youtube-dl.git youtube_dl
