@@ -40,4 +40,4 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Placeholder
-                run: echo TODO Publish here
+          run: echo TODO Publish here
