@@ -21,6 +21,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: test_tag
       - uses: actions/checkout@v2 
       - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ steps.tag_version.outputs.new_version }} $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
       - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ steps.tag_version.outputs.new_version }} $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3      
