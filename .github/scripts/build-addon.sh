@@ -1,8 +1,15 @@
 #!/bin/bash
 set -e
 
-REPO_NAME=$1
-REPO_URL=$2
+VERSION=$1
+REPO_NAME=$2
+REPO_URL=$3
+
+# check if version bump failed (will be "undefined" according to mathieudutour/github-tag-action@v5.6)
+if [[ "$VERSION" == "undefined" ]]; then
+    echo "Failed to bump version. Abborting build."
+    exit 190
+fi
 
 # clone release repo (just needed for the correct addon.xml, TODO decide if addon.xml should be in the main development repo and not the release repo)
 cd ..

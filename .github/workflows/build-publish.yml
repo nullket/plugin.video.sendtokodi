@@ -1,9 +1,8 @@
 name: build-publish-addon
 on:
   push:
-  pull_request:
     branches:
-      - master
+      - test_tag
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,13 +11,19 @@ jobs:
       REPO_URL_PYTHON2: "github.com/firsttris/repository.sendtokodi.git"
       REPO_NAME_PYTHON3: repository.sendtokodi.python3
       REPO_URL_PYTHON3: "github.com/firsttris/repository.sendtokodi.python3.git"
-      VERSION: 0.1.${{github.run_id}}
       ADDON_NAME: plugin.video.sendtokodi
+      NAME: sendtokodi
       TOKEN: ${{secrets.PAT}}
     steps:
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2 
-      - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
-      - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3      
+      - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ steps.tag_version.outputs.new_version }} $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
+      - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ steps.tag_version.outputs.new_version }} $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3      
       - name: Publish if on master
         if: github.ref == 'refs/heads/master'
         run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3
