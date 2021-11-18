@@ -31,11 +31,11 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Addon-artifacts-python2
-          path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON2 }}/${{ env.ADDON_NAME }}/*${{ env.VERSION }}.zip"
+          path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON2 }}/${{ env.ADDON_NAME }}/*${{ steps.tag_version.outputs.new_version }}.zip"
       - uses: actions/upload-artifact@v2
         with:
           name: Addon-artifacts-python3
-          path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON3 }}/${{ env.ADDON_NAME }}/*${{ env.VERSION }}.zip"
+          path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON3 }}/${{ env.ADDON_NAME }}/*${{ steps.tag_version.outputs.new_version }}.zip"
   publish:
     needs: build
     runs-on: ubuntu-latest
