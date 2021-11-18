@@ -35,3 +35,9 @@ jobs:
         with:
           name: Addon-artifacts-python3
           path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON3 }}/${{ env.ADDON_NAME }}/*${{ env.VERSION }}.zip"
+    publish:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Placeholder
+                run: echo TODO Publish here
