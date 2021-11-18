@@ -24,17 +24,18 @@ jobs:
           release_branches: test_tag
       - name: Write new version to environment variable
         run: echo "VERSION=${{ steps.tag_version.outputs.new_version }}" >> $GITHUB_ENV
-      - uses: actions/checkout@v2 
-      - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
-      - run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3      
-      - name: Publish if on master
-        if: github.ref == 'refs/heads/master'
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3
-      - uses: actions/upload-artifact@v2
+      - uses: actions/checkout@v2
+      - name: Build python2 addon
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
+      - name: Build python3 addon
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3      
+      - name: Upload python2 artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: Addon-artifacts-python2
           path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON2 }}/${{ env.ADDON_NAME }}/*${{ env.VERSION }}.zip"
-      - uses: actions/upload-artifact@v2
+      - name: Upload python3 artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: Addon-artifacts-python3
           path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON3 }}/${{ env.ADDON_NAME }}/*${{ env.VERSION }}.zip"
@@ -42,5 +43,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Placeholder
-        run: echo TODO Publish here
+      - name: Publish python2 addon
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
+      - name: Publish python3 addon
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3
