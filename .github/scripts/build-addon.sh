@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-VERSION=$1
-REPO_NAME=$2
-REPO_URL=$3
+REPO_NAME=$1
+REPO_URL=$2
 
 # check if version bump failed (will be "undefined" according to mathieudutour/github-tag-action@v5.6)
 if [[ "$VERSION" == "undefined" ]]; then
