@@ -2,7 +2,7 @@ name: build-publish-addon
 on:
   push:
     branches:
-      - master
+      - build
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,11 +33,3 @@ jobs:
           path: |
           !${{ env.GITHUB_WORKSPACE }}/.git*
           ${{ env.GITHUB_WORKSPACE }}
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publish python2 addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
-      - name: Publish python3 addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3
