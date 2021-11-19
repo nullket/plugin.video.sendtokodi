@@ -31,5 +31,5 @@ jobs:
         with:
           name: Addon-artifacts-python3
           path: |
-            ${{ env.GITHUB_WORKSPACE }}
+             ${{ env.GITHUB_WORKSPACE }}/*
             !${{ env.GITHUB_WORKSPACE }}/.git*
