@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-REPO_NAME=$1
-REPO_URL=$2
+KODI_VERSION=$1
+
 
 # check if version bump failed (will be "undefined" according to mathieudutour/github-tag-action@v5.6)
 if [[ "$VERSION" == "undefined" ]]; then
@@ -10,9 +10,23 @@ if [[ "$VERSION" == "undefined" ]]; then
     exit 190
 fi
 
-# clone release repo (just needed for the correct addon.xml, TODO decide if addon.xml should be in the main development repo and not the release repo)
-cd ..
-git clone https://$REPO_URL
+# based on the targeting kodi version different adjustments must be made. Further information here: https://kodi.wiki/view/Addon.xml
+case $KODI_VERSION in
+  "Leia")
+    echo -n "TODO"
+    ;;
+
+  "Matrix" | "Nexus")
+    echo -n "TODO"
+    ;;
+
+  *)
+    echo -n "Unknown kodi version as traget. Aborting."
+    exit 191
+    ;;
+esac
+
+
 
 # package addon
 envsubst < "$REPO_NAME/$ADDON_NAME/addon.template.xml" > "$REPO_NAME/$ADDON_NAME/addon.xml" # addon.xml
