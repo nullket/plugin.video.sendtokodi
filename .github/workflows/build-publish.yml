@@ -24,10 +24,10 @@ jobs:
       - name: Build addon
         run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Leia
       - name: Upload Addon-artifacts-Leia
-              uses: actions/upload-artifact@v2
-              with:
-                name: Addon-artifacts-Leia
-                path: "${{ runner.temp }}/Leia/*.zip"
+          uses: actions/upload-artifact@v2
+          with:
+            name: Addon-artifacts-Leia
+            path: "${{ runner.temp }}/Leia/*.zip"
   build-matrix:
     needs: versioning
     runs-on: ubuntu-latest
