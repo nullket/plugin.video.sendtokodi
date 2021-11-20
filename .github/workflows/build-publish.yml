@@ -2,18 +2,10 @@ name: build-publish-addon
 on:
   push:
     branches:
-      - master
+      - clean_build
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      REPO_NAME_PYTHON2: repository.sendtokodi
-      REPO_URL_PYTHON2: "github.com/firsttris/repository.sendtokodi.git"
-      REPO_NAME_PYTHON3: repository.sendtokodi.python3
-      REPO_URL_PYTHON3: "github.com/firsttris/repository.sendtokodi.python3.git"
-      ADDON_NAME: plugin.video.sendtokodi
-      NAME: sendtokodi
-      TOKEN: ${{secrets.PAT}}
     steps:
       - uses: actions/checkout@v2
       - name: Bump version and push tag
@@ -22,27 +14,19 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Write new version to environment variable
-        run: echo "VERSION=${{ steps.tag_version.outputs.new_version }}" >> $GITHUB_ENV
+        run: echo "PLUGIN_VERSION=${{ steps.tag_version.outputs.new_version }}" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - name: Build python2 addon
-        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Leia
       - name: Build python3 addon
-        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3      
-      - name: Upload python2 artifacts
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Matrix     
+      - name: Upload Addon-artifacts-Leia
         uses: actions/upload-artifact@v2
         with:
-          name: Addon-artifacts-python2
-          path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON2 }}/${{ env.ADDON_NAME }}/*${{ env.VERSION }}.zip"
-      - name: Upload python3 artifacts
+          name: Addon-artifacts-Leia
+          path: "${{ github.workspace }}/../Leia/*.zip"
+      - name: Upload Addon-artifacts-Matrix
         uses: actions/upload-artifact@v2
         with:
-          name: Addon-artifacts-python3
-          path: "/home/runner/work/${{ github.event.repository.name }}/${{ env.REPO_NAME_PYTHON3 }}/${{ env.ADDON_NAME }}/*${{ env.VERSION }}.zip"
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publish python2 addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON2 $REPO_URL_PYTHON2
-      - name: Publish python3 addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh $REPO_NAME_PYTHON3 $REPO_URL_PYTHON3
+          name: Addon-artifacts-Matrix
+          path: "${{ github.workspace }}/../Matrix/*.zip"
