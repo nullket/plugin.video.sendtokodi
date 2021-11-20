@@ -30,5 +30,6 @@ case $KODI_TARGET in
 esac
 
 mkdir $RUNNER_TEMP/${build_folder}
+# create zip file. The file needs to include the plugin folder itself  
 cd ..
 zip -r $RUNNER_TEMP/${build_folder}/plugin.video.sendtokodi-$VERSION.zip plugin.video.sendtokodi -x "*.git*" # create zip

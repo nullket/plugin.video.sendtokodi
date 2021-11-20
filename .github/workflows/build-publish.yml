@@ -2,7 +2,7 @@ name: build-publish-addon
 on:
   push:
     branches:
-      - clean_build
+      - master
 env:
   VERSION: 'undefined'
 jobs:
@@ -17,7 +17,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_branches: clean_build
+          release_branches: master
   build-leia:
     needs: versioning
     runs-on: ubuntu-latest
