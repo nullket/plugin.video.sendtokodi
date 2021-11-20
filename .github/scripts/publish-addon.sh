@@ -13,6 +13,7 @@ if [[ $GITHUB_REPOSITORY == "firsttris/plugin.video.sendtokodi" || true ]]; then
     git clone https://$REPO_URL $REPO_FOLDER
     
     # add the created zip file
+    ls -lah
     mv plugin.video.sendtokodi-$VERSION.zip $REPO_FOLDER/plugin.video.sendtokodi/
 
     # Update repository addon xml (not the plugin addon.xml) to include the latest version of sendtokodi
