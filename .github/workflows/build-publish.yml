@@ -25,9 +25,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Addon-artifacts-Leia
-          path: "$RUNNER_TEMP/Leia/*.zip"
+          path: "${{ RUNNER_TEMP }}/Leia/*.zip"
       - name: Upload Addon-artifacts-Matrix
         uses: actions/upload-artifact@v2
         with:
           name: Addon-artifacts-Matrix
-          path: "$RUNNER_TEMP/Matrix/*.zip"
+          path: "$${{ RUNNER_TEMP }}/Matrix/*.zip"
