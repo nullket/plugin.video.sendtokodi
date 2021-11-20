@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - clean_build
+env:
+  VERSION: 'undefined'
 jobs:
   versioning:
     runs-on: ubuntu-latest
@@ -14,15 +16,15 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: clean_build
-      - name: Write new version to environment variable
-        run: echo "PLUGIN_VERSION=${{ steps.tag_version.outputs.new_version }}" >> $GITHUB_ENV
+        outputs:
+          VERSION: ${{ steps.tag_version.outputs.new_version }}
   build-leia:
     needs: versioning
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build addon
-        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Leia
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ versioning.outputs.VERSION }} Leia
       - name: Upload Addon-artifacts-Leia
         uses: actions/upload-artifact@v2
         with:
@@ -34,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build addon
-        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Matrix     
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ versioning.outputs.VERSION }} Matrix     
       - name: Upload Addon-artifacts-Matrix
         uses: actions/upload-artifact@v2
         with:
@@ -48,13 +50,13 @@ jobs:
         with:
           name: Addon-artifacts-Leia
       - name: Publish addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh "github.com/firsttris/repository.sendtokodi.git" 
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh ${{ versioning.outputs.VERSION }} "github.com/firsttris/repository.sendtokodi.git" 
   publish-matrix:
-    needs: build-leia
+    needs: build-matrix
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
         with:
           name: Addon-artifacts-Matrix
       - name: Publish addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh "github.com/firsttris/repository.sendtokodi.python3.git" 
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh ${{ versioning.outputs.VERSION }} "github.com/firsttris/repository.sendtokodi.python3.git" 

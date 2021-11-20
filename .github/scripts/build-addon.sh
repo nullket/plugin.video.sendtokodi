@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
 
-KODI_TARGET=$1
+VERSION=$1
+KODI_TARGET=$2
 
 # check if version bump failed (will be "undefined" according to mathieudutour/github-tag-action@v5.6)
-if [[ "$PLUGIN_VERSION" == "undefined" || -z "$PLUGIN_VERSION" ]]; then
+if [[ "$VERSION" == "undefined" || -z "$VERSION" ]]; then
     echo "Failed to bump or get version. Abborting build."
     exit 190
 fi
@@ -14,12 +15,12 @@ fi
 case $KODI_TARGET in
   "Leia")
     echo -n "TODO"
-    $GITHUB_WORKSPACE/.github/scripts/addon_xml_adjuster.py --plugin-version $PLUGIN_VERSION --xbmc-python "2.26.0"
+    $GITHUB_WORKSPACE/.github/scripts/addon_xml_adjuster.py --plugin-version $VERSION --xbmc-python "2.26.0"
     build_folder=Leia
     ;;
 
   "Matrix" | "Nexus")
-    $GITHUB_WORKSPACE/.github/scripts/addon_xml_adjuster.py --plugin-version $PLUGIN_VERSION --xbmc-python "3.0.0"
+    $GITHUB_WORKSPACE/.github/scripts/addon_xml_adjuster.py --plugin-version $VERSION --xbmc-python "3.0.0"
     build_folder=Matrix
     ;;
   *)
@@ -29,4 +30,4 @@ case $KODI_TARGET in
 esac
 
 mkdir $RUNNER_TEMP/${build_folder}
-zip -r $RUNNER_TEMP/${build_folder}/plugin.video.sendtokodi-$PLUGIN_VERSION.zip . -x "*.git*" # create zip
+zip -r $RUNNER_TEMP/${build_folder}/plugin.video.sendtokodi-$VERSION.zip . -x "*.git*" # create zip
