@@ -4,6 +4,8 @@ set -e
 # This script needs build-addon to be run shortly before (so the repos are cloned and the addons are built)
 VERSION=$1
 REPO_URL=$2
+
+echo "DEBUG $1 DEBUG $2"
 REPO_FOLDER=release_repo
 # check if action was triggered in a fork and avoid trying to push. FOR TESTING DISABLED
 if [[ $GITHUB_REPOSITORY == "firsttris/plugin.video.sendtokodi" || true ]]; then
