@@ -2,7 +2,6 @@
 set -e
 # this script publishes the addon zip file to the unofficial python2/3 kodi repo 
 
-
 VERSION=$1
 REPO_URL=$2
 REPO_FOLDER=release_repo
