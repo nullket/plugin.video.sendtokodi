@@ -14,12 +14,12 @@ fi
 case $KODI_TARGET in
   "Leia")
     echo -n "TODO"
-    addon_xml_adjuster.py --plugin-version $PLUGIN_VERSION --xbmc-python "2.26.0"
+    $GITHUB_WORKSPACE/.github/scripts/addon_xml_adjuster.py --plugin-version $PLUGIN_VERSION --xbmc-python "2.26.0"
     build_folder=Leia
     ;;
 
   "Matrix" | "Nexus")
-    addon_xml_adjuster.py --plugin-version $PLUGIN_VERSION --xbmc-python "3.0.0"
+    $GITHUB_WORKSPACE/.github/scripts/addon_xml_adjuster.py --plugin-version $PLUGIN_VERSION --xbmc-python "3.0.0"
     build_folder=Matrix
     ;;
   *)
