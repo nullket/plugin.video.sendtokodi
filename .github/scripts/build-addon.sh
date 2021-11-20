@@ -28,5 +28,5 @@ case $KODI_TARGET in
     ;;
 esac
 
-mkdir ../${build_folder}
-zip -r ../${build_folder}/plugin.video.sendtokodi-$PLUGIN_VERSION.zip . -x "*.git*" # create zip
+mkdir $RUNNER_TEMP/${build_folder}
+zip -r $RUNNER_TEMP/${build_folder}/plugin.video.sendtokodi-$PLUGIN_VERSION.zip . -x "*.git*" # create zip
