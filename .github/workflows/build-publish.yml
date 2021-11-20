@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build addon
-        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ versioning.outputs.VERSION }} Leia
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ needs.versioning.outputs.VERSION }} Leia
       - name: Upload Addon-artifacts-Leia
         uses: actions/upload-artifact@v2
         with:
@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build addon
-        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ versioning.outputs.VERSION }} Matrix     
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh ${{ needs.versioning.outputs.VERSION }} Matrix     
       - name: Upload Addon-artifacts-Matrix
         uses: actions/upload-artifact@v2
         with:
@@ -50,7 +50,7 @@ jobs:
         with:
           name: Addon-artifacts-Leia
       - name: Publish addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh ${{ versioning.outputs.VERSION }} "github.com/firsttris/repository.sendtokodi.git" 
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh ${{ needs.versioning.outputs.VERSION }} "github.com/firsttris/repository.sendtokodi.git" 
   publish-matrix:
     needs: build-matrix
     runs-on: ubuntu-latest
@@ -59,4 +59,4 @@ jobs:
         with:
           name: Addon-artifacts-Matrix
       - name: Publish addon
-        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh ${{ versioning.outputs.VERSION }} "github.com/firsttris/repository.sendtokodi.python3.git" 
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh ${{ needs.versioning.outputs.VERSION }} "github.com/firsttris/repository.sendtokodi.python3.git" 
