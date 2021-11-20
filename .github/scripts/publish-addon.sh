@@ -26,4 +26,4 @@ if [[ $GITHUB_REPOSITORY == "firsttris/plugin.video.sendtokodi" ]]; then
     git push --force --quiet "https://firsttris:$TOKEN@$REPO_URL" master
 else 
     echo "Not in the main repo, build will not be published."
-fi 
+fi
