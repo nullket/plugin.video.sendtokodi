@@ -4,7 +4,7 @@ on:
     branches:
       - clean_build
 jobs:
-  build:
+  versioning:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,18 +16,45 @@ jobs:
           release_branches: clean_build
       - name: Write new version to environment variable
         run: echo "PLUGIN_VERSION=${{ steps.tag_version.outputs.new_version }}" >> $GITHUB_ENV
+  build-leia:
+    needs: versioning
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v2
-      - name: Build python2 addon
+      - name: Build addon
         run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Leia
-      - name: Build python3 addon
-        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Matrix     
       - name: Upload Addon-artifacts-Leia
-        uses: actions/upload-artifact@v2
-        with:
-          name: Addon-artifacts-Leia
-          path: "${{ runner.temp }}/Leia/*.zip"
+              uses: actions/upload-artifact@v2
+              with:
+                name: Addon-artifacts-Leia
+                path: "${{ runner.temp }}/Leia/*.zip"
+  build-matrix:
+    needs: versioning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build addon
+        run: $GITHUB_WORKSPACE/.github/scripts/build-addon.sh Matrix     
       - name: Upload Addon-artifacts-Matrix
         uses: actions/upload-artifact@v2
         with:
           name: Addon-artifacts-Matrix
           path: "${{ runner.temp }}/Matrix/*.zip"
+  publish-leia:
+    needs: build-leia
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Addon-artifacts-Leia
+      - name: Publish addon
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh "github.com/firsttris/repository.sendtokodi.git" 
+  publish-matrix:
+    needs: build-leia
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Addon-artifacts-Matrix
+      - name: Publish addon
+        run: $GITHUB_WORKSPACE/.github/scripts/publish-addon.sh "github.com/firsttris/repository.sendtokodi.python3.git" 
