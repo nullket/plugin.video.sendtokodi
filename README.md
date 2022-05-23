@@ -1,5 +1,6 @@
 # plugin.video.sendtokodi
 
+
 [![build-publish-addon](https://github.com/firsttris/plugin.video.sendtokodi/actions/workflows/build-publish.yml/badge.svg)](https://github.com/firsttris/plugin.video.sendtokodi/actions/workflows/build-publish.yml)
 
 This [kodi](https://github.com/xbmc/xbmc) plugin receives URLs and resolves almost all of them with [yt-dlp](https://github.com/yt-dlp/yt-dlp) creating a playable video stream for kodi. The URLs can be send with one of the supported apps listed below. The plugin itself is not in the offical kodi addon repo, to install it with automatic updates you need to add our repo first. Download the repo file for your kodi version and [install it from zip](https://kodi.wiki/view/Add-on_manager). Afterwards the repositoy should be listed and can be selected to install the actual plugin itself. 
